@@ -1,11 +1,11 @@
 <template>
   <div>
-    <button id="btnWindow" @click="openModal">{{ windowName }}</button>
+    <button id="btnWindow" @click="openWindow">{{ windowName }}</button>
 
     <div id="window" class="window">
       <div class="window-content">
-        <span class="close" @click="closeModal">&times;</span>
-        <p>{{ outputHTML }}</p>
+        <span class="close" @click="closeWindow">&times;</span>
+        <slot name="windowContent"> </slot>
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@ export default defineComponent({
   },
   methods: {
     openWindow(): void {
-      var window = document.getElementById("window");
+      const window = document.getElementById("window");
       if (window) window.style.display = "block";
     },
     closeWindow(): void {
@@ -32,11 +32,11 @@ export default defineComponent({
     },
   },
   mounted() {
-    var window = document.getElementById("window");
+    const window = document.getElementById("window");
     if (!window) return;
     window.onclick = function (event) {
       if (event.target == window) {
-        window!.style.display = "none";
+        window.style.display = "none";
       }
     };
   },
