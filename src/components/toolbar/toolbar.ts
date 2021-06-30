@@ -83,7 +83,7 @@ export default defineComponent({
 				case "quote":
 					this.checkAndChange(">", null)
 					break;
-			}
+			};
 		},
 	},
 	mounted() {
