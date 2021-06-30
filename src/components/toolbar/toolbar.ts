@@ -1,3 +1,14 @@
+/* eslint-disable */
+interface IMarkOptions {
+	attributes: {
+		start: string;
+		end: string;
+	},
+	positions: {
+		start: string;
+		end: string;
+	}
+}
 import { defineComponent } from "vue";
 export default defineComponent({
 	name: "ToolBar",
@@ -24,65 +35,102 @@ export default defineComponent({
 			}
 			return null;
 		},
-		addAttributeSelection(start: string | null, end: string | null) {
-			const startSelection = this.textarea!.selectionStart;
-			const endSelection = this.textarea!.selectionEnd;
-			const splitText = this.textarea!.value.split("");
+		addAttributeSelection(options: IMarkOptions) {
+			const startSelection = this.textarea?.selectionStart;
+			const endSelection = this.textarea?.selectionEnd;
+			const splitText = this.textarea?.value.split("");
+			if (!splitText?.length) return null
 			splitText.forEach((c: string, i: number) => {
-				if (i === startSelection && start) splitText[i] = `${start}${c}`;
-				if (i === endSelection - 1 && end) splitText[i] = `${c}${end}`;
+				if (i === startSelection && options.attributes.start) splitText[i] = `${options.attributes.start}${c}`;
+				if (endSelection && i === endSelection - 1 && options.attributes.end) splitText[i] = `${c}${options.attributes.end}`;
 			});
 			return splitText.join("");
 		},
-		addAttributePosition(start: string | null, end: string | null) {
-			const startSelection = this.textarea!.selectionStart;
+		addAttributePosition(options: IMarkOptions) {
+			console.log(options);
 
-			if (!startSelection) return (this.textarea!.value += `${start ? start : ""}${end ? end : ""}`);
-			const splitText = this.textarea!.value.split("");
-			if (this.textarea!.value.length === startSelection) return this.textarea!.value += `${start}${end}`
-			splitText.forEach((c: string, i: number) => {
-				if (i === startSelection)
-					splitText[i] = `${start ? start : ""}${end ? end : ""}${c}`;
-			});
-			return splitText.join("");
+			if (options.positions.start === "current" && options.positions.end === "current") {
+				const startSelection = this.textarea!.selectionStart;
+				if (!startSelection) return (this.textarea!.value += `${options.attributes.start ? options.attributes.start : ""}${options.attributes.end ? options.attributes.end : ""}`);
+				const splitText = this.textarea!.value.split("");
+				if (this.textarea!.value.length === startSelection) return this.textarea!.value += `${options.attributes.start}${options.attributes.end}`
+				splitText.forEach((c: string, i: number) => {
+					if (i === startSelection)
+						splitText[i] = `${options.attributes.start ? options.attributes.start : ""}${options.attributes.end ? options.attributes.end : ""}${c}`;
+				});
+				return splitText.join("");
+			}
+			if (options.positions.start === "startLine" && options.positions.end === "startLine") {
+				const start = this.getCurrentLineStart()
+				if (start || start === 0) {
+					const splitText = this.textarea!.value.split("");
+					splitText.forEach((c: string, i: number) => {
+						console.log(`Start : ${start} I : ${i}`);
+
+						if (start == i) splitText[i] = `${options.attributes.start}${c}${options.attributes.end}`
+					})
+					return splitText.join("")
+				}
+			}
 		},
-		checkAndChange(start: string | null, end: string | null) {
+		checkAndChange(options: IMarkOptions) {
 			if (this.getSelectionText()) {
 				this.$emit("CHANGE_TEXT", {
-					value: this.addAttributeSelection(start, end),
+					value: this.addAttributeSelection(options),
 				});
 			} else {
 				this.$emit("CHANGE_TEXT", {
-					value: this.addAttributePosition(start, end),
+					value: this.addAttributePosition(options),
 				});
 			}
+		},
+
+		getCurrentLineStart() {
+			const pattern = /\r?\n|\r/;
+			const caretPos = this.textarea!.selectionStart;
+			let lineStartIndx = 0;
+			for (let i = 0; i < caretPos; i++) {
+				if (this.textarea!.value.substr(i, 1).match(pattern)) {
+					lineStartIndx = i + 1
+				}
+			}
+			return lineStartIndx
 		},
 		markdown(type: string): void {
 			switch (type.toLowerCase()) {
 				case "bold":
-					this.checkAndChange("**", "**")
+					this.checkAndChange({
+						attributes: {
+							start: "**",
+							end: "**"
+						},
+						positions: {
+							start: "startLine",
+							end: "startLine"
+						}
+					})
 					break;
-				case "italic":
-					this.checkAndChange("*", "*")
-					break;
-				case "strike":
-					this.checkAndChange("<s>", '</s>')
-					break;
-				case "underline":
-					this.checkAndChange("<u>", "</u>")
-					break;
-				case "h1":
-					this.checkAndChange("# ", null)
-					break;
-				case "h2":
-					this.checkAndChange("## ", null)
-					break;
-				case "h3":
-					this.checkAndChange("### ", null)
-					break;
-				case "quote":
-					this.checkAndChange(">", null)
-					break;
+				// case "italic":
+				// 	this.checkAndChange("*", "*")
+				// 	break;
+				// case "strike":
+				// 	this.checkAndChange("<s>", '</s>')
+				// 	break;
+				// case "underline":
+				// 	this.checkAndChange("<u>", "</u>")
+				// 	break;
+				// case "h1":
+				// 	this.checkAndChange("# ", "")
+				// 	break;
+				// case "h2":
+				// 	this.checkAndChange("## ", "")
+				// 	break;
+				// case "h3":
+				// 	this.checkAndChange("### ", "")
+				// 	break;
+				// case "quote":
+				// 	this.checkAndChange(">", "")
+				// 	break;
 			};
 		},
 	},
