@@ -1,0 +1,28 @@
+#toolbar {
+  display: flex;
+}
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  li {
+    margin-right: 3px;
+    margin-left: 1.5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding: 1px;
+    width: 20px;
+  }
+}
+.sep {
+  margin-right: 3px;
+  margin-left: 3px;
+  font-size: 20px;
+}
+.btn {
+  cursor: pointer;
+  width: 100%;
+  &:hover {
+    background-color: grey;
+  }
+}

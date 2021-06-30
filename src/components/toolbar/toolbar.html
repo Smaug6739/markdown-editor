@@ -1,0 +1,52 @@
+<div id="toolbar">
+	<ul>
+		<li>
+			<a @click="markdown('bold')" class="btn"><i class="fas fa-bold"></i></a>
+		</li>
+		<li>
+			<a @click="markdown('italic')" class="btn"><i class="fas fa-italic"></i></a>
+		</li>
+		<li>
+			<a @click="markdown('underline')" class="btn"><i class="fas fa-underline"></i></a>
+		</li>
+		<li>
+			<a @click="markdown('strike')" class="btn"><i class="fas fa-strikethrough"></i></a>
+		</li>
+	</ul>
+	<span class="sep">|</span>
+	<ul>
+		<li>
+			<a @click="markdown('h1')" class="btn">H1</a>
+		</li>
+		<li>
+			<a @click="markdown('h2')" class="btn">H2</a>
+		</li>
+		<li>
+			<a @click="markdown('h3')" class="btn">H3</a>
+		</li>
+	</ul>
+		<span class="sep">|</span>
+	<ul>
+		<li>
+			<a @click="markdown('quote')" class="btn">
+				<i class="fas fa-quote-left"></i>
+			</a>
+		</li>
+		
+		<li>
+			<a @click="markdown('ol')" class="btn"><i class="fas fa-list-ol"></i></a>
+		</li>
+		<li>
+			<a @click="markdown('ul')" class="btn"><i class="fas fa-list-ul"></i></a>
+		</li>
+	</ul>
+		<span class="sep">|</span>
+	<ul>
+		<li>
+			<a @click="markdown('link')" class="btn"><i class="fas fa-link"></i></a>
+		</li>
+		<li>
+			<a @click="markdown('image')" class="btn"><i class="fas fa-image"></i></a>
+		</li>
+	</ul>
+</div>
