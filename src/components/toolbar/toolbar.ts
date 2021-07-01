@@ -105,32 +105,143 @@ export default defineComponent({
 							end: "**"
 						},
 						positions: {
+							start: "current",
+							end: "current"
+						}
+					})
+					break;
+				case "italic":
+					this.checkAndChange({
+						attributes: {
+							start: "*",
+							end: "*"
+						},
+						positions: {
+							start: "current",
+							end: "current"
+						}
+					})
+					break;
+				case "strike":
+					this.checkAndChange({
+						attributes: {
+							start: "<s>",
+							end: "</s>"
+						},
+						positions: {
+							start: "current",
+							end: "current"
+						}
+					})
+					break;
+				case "underline":
+					this.checkAndChange({
+						attributes: {
+							start: "<u>",
+							end: "</u>"
+						},
+						positions: {
+							start: "current",
+							end: "current"
+						}
+					})
+					break;
+				case "h1":
+					this.checkAndChange({
+						attributes: {
+							start: "# ",
+							end: ""
+						},
+						positions: {
 							start: "startLine",
 							end: "startLine"
 						}
 					})
 					break;
-				// case "italic":
-				// 	this.checkAndChange("*", "*")
-				// 	break;
-				// case "strike":
-				// 	this.checkAndChange("<s>", '</s>')
-				// 	break;
-				// case "underline":
-				// 	this.checkAndChange("<u>", "</u>")
-				// 	break;
-				// case "h1":
-				// 	this.checkAndChange("# ", "")
-				// 	break;
-				// case "h2":
-				// 	this.checkAndChange("## ", "")
-				// 	break;
-				// case "h3":
-				// 	this.checkAndChange("### ", "")
-				// 	break;
-				// case "quote":
-				// 	this.checkAndChange(">", "")
-				// 	break;
+				case "h2":
+					this.checkAndChange({
+						attributes: {
+							start: "## ",
+							end: ""
+						},
+						positions: {
+							start: "startLine",
+							end: "startLine"
+						}
+					})
+					break;
+				case "h3":
+					this.checkAndChange({
+						attributes: {
+							start: "### ",
+							end: ""
+						},
+						positions: {
+							start: "startLine",
+							end: "startLine"
+						}
+					})
+					break;
+				case "quote":
+					this.checkAndChange({
+						attributes: {
+							start: "> ",
+							end: ""
+						},
+						positions: {
+							start: "startLine",
+							end: "startLine"
+						}
+					})
+					break;
+				case "ol":
+					this.checkAndChange({
+						attributes: {
+							start: "1. ",
+							end: ""
+						},
+						positions: {
+							start: "startLine",
+							end: "startLine"
+						}
+					})
+					break;
+				case "ul":
+					this.checkAndChange({
+						attributes: {
+							start: "*",
+							end: ""
+						},
+						positions: {
+							start: "startLine",
+							end: "startLine"
+						}
+					})
+					break;
+				case "link":
+					this.checkAndChange({
+						attributes: {
+							start: " [",
+							end: "]()"
+						},
+						positions: {
+							start: "current",
+							end: "current"
+						}
+					})
+					break;
+				case "image":
+					this.checkAndChange({
+						attributes: {
+							start: " ![",
+							end: "]()"
+						},
+						positions: {
+							start: "current",
+							end: "current"
+						}
+					})
+					break;
 			};
 		},
 	},
