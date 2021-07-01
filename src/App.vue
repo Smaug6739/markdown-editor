@@ -78,6 +78,7 @@ main {
 .output {
   width: 50%;
   border: 2px black solid;
+  overflow-x: auto;
 }
 
 pre {
